@@ -74,6 +74,13 @@ async function run() {
             })
           })
           
+          // delete order
+          app.delete('/delete/:id', (req, res) => {
+            const id = ObjectId(req.params.id);
+            orderCollection.findOneAndDelete({_id: id})
+            .then(documents => res.send(!!documents.value));
+            
+          })
 
         //get single service
         app.get('/services/:id', async (req, res) => {
@@ -83,7 +90,7 @@ async function run() {
             const service = await collection.findOne(query);
             res.json(service);
         });
-        //delete api 
+        //delete api       
         app.delete('/services/:id', async (req, res) => {
             const id = req.params.id;
             const query = { _id: ObjectId(id) };
@@ -91,7 +98,8 @@ async function run() {
             res.json(result);
         })
 
-    }
+    } 
+ 
     finally {
         // await client.close();
     }
